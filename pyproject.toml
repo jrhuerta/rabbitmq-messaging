@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "rabbitmq-events"
+version = "0.1.0"
+description = ""
+authors = ["Joaquin Rodriguez <jrhuerta@alayacare.com>"]
+packages = [
+    { include = "alaya", from = "src" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+kombu = "^5.2.3"
+librabbitmq = "^2.0.0"
+SQLAlchemy = "^1.4.31"
+Flask = "^2.0.3"
+asyncclick = "^8.0.3"
+anyio = "^3.5.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
