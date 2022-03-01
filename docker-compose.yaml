@@ -21,8 +21,8 @@ services:
     environment:
       POSTGRES_PASSWORD: root
     volumes:
-      - pg_db:/var/lib/postgresql/data
+      - pg_dv:/var/lib/postgresql/data
 
 volumes:
   mariadb_dv: ~
-  pg_db: ~
+  pg_dv: ~
