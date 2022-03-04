@@ -23,6 +23,15 @@ services:
     volumes:
       - pg_dv:/var/lib/postgresql/data
 
+  rabbitmq:
+    build:
+      context: ./
+      dockerfile: Dockerfile.rabbitmq
+    image: rabbitmq:3-management-consistent-hash-exchange
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
+
 volumes:
   mariadb_dv: ~
   pg_dv: ~

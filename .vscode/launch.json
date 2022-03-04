@@ -5,6 +5,26 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "consumer",
+            "type": "python",
+            "request": "launch",
+            "module": "alaya.events.consumer",
+            "args": [
+                "-e",
+                "component_name-events"
+            ]
+        },
+        {
+            "name": "outbox",
+            "type": "python",
+            "request": "launch",
+            "module": "alaya.events.outbox",
+            "args": [
+                "-e",
+                "component_name-events"
+            ]
+        },
+        {
             "name": "app",
             "type": "python",
             "request": "launch",

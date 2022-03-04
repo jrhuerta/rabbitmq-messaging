@@ -1,0 +1,4 @@
+FROM rabbitmq:3-management
+
+# consistent hashing is required for the application
+RUN rabbitmq-plugins enable --offline rabbitmq_consistent_hash_exchange

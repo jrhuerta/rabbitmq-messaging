@@ -4,7 +4,7 @@ from itertools import cycle
 from configparser import ConfigParser
 
 from invoke import UnexpectedExit, task
-from alaya.events import Base
+from alaya.events.db import Base
 from sqlalchemy import create_engine
 
 
@@ -111,3 +111,18 @@ def clean(c):
     c.run("docker-compose rm -fs mariadb pg", echo=True)
     c.run(f"docker volume rm {' '.join(volumes)}", echo=True)
     c.run("docker-compose up -d mariadb pg", echo=True)
+
+
+@task
+def adminer_pg(c):
+    c.run("gopen 'http://localhost:8080/?pgsql=pg&username=postgres'")
+
+
+@task
+def adminer_mysql(c):
+    c.run("gopen 'http://localhost:8080/?server=mariadb&username=root'")
+
+
+@task
+def rabbitmq(c):
+    c.run("gopen 'http://localhost:15672'")
