@@ -32,6 +32,14 @@ services:
       - "127.0.0.1:5672:5672"
       - "127.0.0.1:15672:15672"
 
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile.flask-app
+    image: flask-app:latest
+    ports:
+      - "127.0.0.1:5000:5000"
+
 volumes:
   mariadb_dv: ~
   pg_dv: ~

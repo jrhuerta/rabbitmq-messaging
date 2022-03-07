@@ -1,6 +1,5 @@
 import logging
 import asyncclick as click
-import asyncio
 import aio_pika
 
 
@@ -27,8 +26,10 @@ import aio_pika
     "-p",
     "--pattern",
     type=click.STRING,
-    default="#",
+    default=["#"],
+    show_default=True,
     required=True,
+    multiple=True,
     help="Routing key pattern.",
 )
 @click.option(
@@ -49,13 +50,21 @@ async def consumer(broker, exchange, pattern, hash_header):
 
         # Declare consistent hash exchange
         ch_exchange = await channel.declare_exchange(
-            f"{exchange}_ch",
+            f"{exchange}_{'-'.join(pattern)}_consumers".replace(
+                "#", "octothorpe"
+            ).replace("*", "asterisk"),
             aio_pika.ExchangeType.X_CONSISTENT_HASH,
             arguments={"hash-header": hash_header},
+            auto_delete=True,
         )
+
+        # Bind queue to consistent hash exchange first
         queue = await channel.declare_queue(auto_delete=True)
         await queue.bind(ch_exchange, routing_key="1")
-        await ch_exchange.bind(exchange, routing_key=pattern)
+
+        # Bind consistent hash to topic exchange
+        for p in pattern:
+            await ch_exchange.bind(exchange, routing_key=p)
 
         # Will take no more than 10 messages in advance
         await channel.set_qos(prefetch_count=10)
@@ -64,9 +73,6 @@ async def consumer(broker, exchange, pattern, hash_header):
             async for message in queue_iter:
                 async with message.process():
                     print(message.body)
-
-                    if queue.name in message.body.decode():
-                        break
 
 
 if __name__ == "__main__":

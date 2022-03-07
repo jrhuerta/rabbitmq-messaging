@@ -11,7 +11,11 @@
             "module": "alaya.events.consumer",
             "args": [
                 "-e",
-                "component_name-events"
+                "testing-events",
+                "-p",
+                "visit.clock-in",
+                "-p",
+                "visit.clock-out"
             ]
         },
         {

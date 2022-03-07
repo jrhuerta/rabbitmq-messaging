@@ -45,7 +45,7 @@ def emit(tenant: str, db: str, event: str):
     global engine_factory
 
     if not tenant_config.has_section(tenant):
-        return jsonify(message="Tenant not found."), 404
+        return jsonify(tenant=tenant, message="Tenant not found."), 404
     dsn = f"databases.{db}.dsn"
     if not tenant_config.has_option(tenant, dsn):
         return jsonify(message="Invalid database type."), 400

@@ -67,7 +67,7 @@ async def process_outbox(
                     headers={"org": event.org},
                 )
                 resp = await exchange.publish(msg, routing_key=event.event)
-                logging.info(event)
+                # logging.info(event)
     except ConnectionRefusedError:
         logging.warning(f"{org}: {repr(engine.url)} connection refused, skipping")
     except ProgrammingError as ex:
@@ -115,7 +115,7 @@ async def process_outbox(
 @click.option(
     "-i",
     "--interval",
-    type=click.INT,
+    type=click.FLOAT,
     default=5,
     show_default=True,
     required=True,
@@ -145,7 +145,7 @@ async def outbox(
 
     while True:
         await gather_with_concurrency(
-            1,
+            10,
             *map(
                 process_outbox,
                 sql_connections.keys(),
